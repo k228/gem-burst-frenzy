@@ -5,11 +5,13 @@ interface CandyGridProps {
   grid: (Candy | null)[][];
   selectedCandy: Position | null;
   onCandyClick: (position: Position) => void;
+  onDragStart: (position: Position) => void;
+  onDragEnd: (position: Position) => void;
 }
 
-export const CandyGrid = ({ grid, selectedCandy, onCandyClick }: CandyGridProps) => {
+export const CandyGrid = ({ grid, selectedCandy, onCandyClick, onDragStart, onDragEnd }: CandyGridProps) => {
   return (
-    <div className="grid grid-cols-8 gap-1 p-4 bg-gradient-to-br from-purple-200 via-pink-100 to-yellow-100 rounded-xl shadow-lg border-4 border-white/50">
+    <div className="grid grid-cols-8 gap-1 p-2 sm:p-4 bg-gradient-to-br from-purple-200 via-pink-100 to-yellow-100 rounded-xl shadow-lg border-4 border-white/50 touch-manipulation">
       {grid.map((row, rowIndex) =>
         row.map((candy, colIndex) => (
           <CandyComponent
@@ -20,6 +22,8 @@ export const CandyGrid = ({ grid, selectedCandy, onCandyClick }: CandyGridProps)
               selectedCandy?.row === rowIndex && selectedCandy?.col === colIndex
             }
             onClick={onCandyClick}
+            onDragStart={onDragStart}
+            onDragEnd={onDragEnd}
           />
         ))
       )}

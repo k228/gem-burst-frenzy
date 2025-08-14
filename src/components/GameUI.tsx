@@ -1,7 +1,7 @@
 import { GameState } from '@/types/game';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Trophy, Target, Zap, RotateCcw } from 'lucide-react';
+import { Trophy, Target, Zap, RotateCcw, CheckCircle } from 'lucide-react';
 
 interface GameUIProps {
   gameState: GameState;
@@ -66,21 +66,42 @@ export const GameUI = ({ gameState, onRestart }: GameUIProps) => {
         </Card>
       </div>
 
-      {/* Progress Bar */}
+      {/* Objectives */}
       <Card>
-        <CardContent className="pt-6">
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm text-muted-foreground">
-              <span>Progress to Target</span>
-              <span>{Math.min(100, Math.round(progress))}%</span>
-            </div>
-            <div className="w-full bg-muted rounded-full h-3">
-              <div
-                className="bg-gradient-to-r from-primary to-accent h-3 rounded-full transition-all duration-500 ease-out"
-                style={{ width: `${Math.min(100, progress)}%` }}
-              />
-            </div>
-          </div>
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-lg">
+            <CheckCircle className="w-5 h-5 text-primary" />
+            Objectives
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          {gameState.objectives.map((objective, index) => {
+            const progress = Math.min(100, (objective.current / objective.target) * 100);
+            const isComplete = objective.current >= objective.target;
+            
+            return (
+              <div key={index} className="space-y-2">
+                <div className="flex justify-between items-center text-sm">
+                  <span className={isComplete ? 'text-green-600 font-medium' : 'text-muted-foreground'}>
+                    {objective.description}
+                  </span>
+                  <span className={`font-bold ${isComplete ? 'text-green-600' : 'text-foreground'}`}>
+                    {objective.current}/{objective.target}
+                  </span>
+                </div>
+                <div className="w-full bg-muted rounded-full h-2">
+                  <div
+                    className={`h-2 rounded-full transition-all duration-500 ease-out ${
+                      isComplete 
+                        ? 'bg-green-500' 
+                        : 'bg-gradient-to-r from-primary to-accent'
+                    }`}
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+              </div>
+            );
+          })}
         </CardContent>
       </Card>
 
