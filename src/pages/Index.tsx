@@ -1,11 +1,30 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useGameLogic } from '@/hooks/useGameLogic';
+import { CandyGrid } from '@/components/CandyGrid';
+import { GameUI } from '@/components/GameUI';
 
 const Index = () => {
+  const { gameState, selectedCandy, handleCandyClick, resetGame } = useGameLogic();
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <div className="min-h-screen p-4" style={{ background: 'var(--gradient-game-bg)' }}>
+      <div className="max-w-6xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-8 items-start">
+          {/* Game Board */}
+          <div className="flex justify-center">
+            <CandyGrid
+              grid={gameState.grid}
+              selectedCandy={selectedCandy}
+              onCandyClick={handleCandyClick}
+            />
+          </div>
+
+          {/* Game UI */}
+          <div className="flex justify-center lg:justify-start">
+            <div className="w-full max-w-md">
+              <GameUI gameState={gameState} onRestart={resetGame} />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
