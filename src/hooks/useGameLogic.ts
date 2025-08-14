@@ -59,20 +59,20 @@ export const useGameLogic = () => {
   const wouldCreateMatch = (grid: (Candy | null)[][], candy: Candy, row: number, col: number): boolean => {
     // Check horizontal match
     let horizontalCount = 1;
-    for (let c = col - 1; c >= 0 && grid[row][c]?.type === candy.type; c--) {
+    for (let c = col - 1; c >= 0 && grid[row] && grid[row][c]?.type === candy.type; c--) {
       horizontalCount++;
     }
-    for (let c = col + 1; c < GRID_SIZE && grid[row][c]?.type === candy.type; c++) {
+    for (let c = col + 1; c < GRID_SIZE && grid[row] && grid[row][c]?.type === candy.type; c++) {
       horizontalCount++;
     }
     if (horizontalCount >= 3) return true;
 
     // Check vertical match
     let verticalCount = 1;
-    for (let r = row - 1; r >= 0 && grid[r][col]?.type === candy.type; r--) {
+    for (let r = row - 1; r >= 0 && grid[r] && grid[r][col]?.type === candy.type; r--) {
       verticalCount++;
     }
-    for (let r = row + 1; r < GRID_SIZE && grid[r][col]?.type === candy.type; r++) {
+    for (let r = row + 1; r < GRID_SIZE && grid[r] && grid[r][col]?.type === candy.type; r++) {
       verticalCount++;
     }
     if (verticalCount >= 3) return true;
